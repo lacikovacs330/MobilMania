@@ -41,7 +41,7 @@
                 var productPhonesDiv = $('.product-phones');
                 productPhonesDiv.empty();
 
-                if (response.length >= 0) {
+                if (response.length > 0) {
                     var modelsDisplayed = [];
                     for (var i = 0; i < response.length; i++) {
                         var model = response[i].model;
@@ -66,6 +66,7 @@
                         productPhonesDiv.append(card);
                     }
                 } else {
+                    productPhonesDiv.empty();
                     productPhonesDiv.append('<p>No results found.</p>');
                 }
             }, 'json');
@@ -154,9 +155,16 @@
             <?php endforeach; ?>
         <?php else: ?>
             <div style="width: 100%; height: 350px;display: flex; justify-content: center; align-items: center">
-                <p style="text-align: center;">Nincs telefon hozzárendelve.</p>
+                <p style="text-align: center;">No phone assigned.p</p>
             </div>
         <?php endif; ?>
+
+        <div id="noPhonesMessageBelow" style="display: none;">
+            <p>No phones found under $1500.</p>
+        </div>
+        <div id="noPhonesMessageAbove" style="display: none;">
+            <p>No phones found over $1500.</p>
+        </div>
     </div>
 </div>
 <?php include "includes/footer.php"; ?>
@@ -170,11 +178,32 @@
         for (const phone of phones) {
             const price = parseInt(phone.querySelector('.ar').textContent);
 
-            if ((below1500 && price >= 1500) || (above1500 && price < 1500)) {
+            if ((below1500 && price >= 1500)) {
+                phone.style.display = 'none';
+            } else if (above1500 && price < 1500) {
                 phone.style.display = 'none';
             } else {
                 phone.style.display = 'block';
             }
+        }
+
+        const productPhonesDiv = document.querySelector('.product-phones');
+        const visiblePhonesBelow = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
+        const visiblePhonesAbove = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
+
+        const noPhonesMessageBelow = document.getElementById('noPhonesMessageBelow');
+        const noPhonesMessageAbove = document.getElementById('noPhonesMessageAbove');
+
+        if (below1500 && visiblePhonesBelow.length === 0) {
+            noPhonesMessageBelow.style.display = 'block';
+        } else {
+            noPhonesMessageBelow.style.display = 'none';
+        }
+
+        if (above1500 && visiblePhonesAbove.length === 0) {
+            noPhonesMessageAbove.style.display = 'block';
+        } else {
+            noPhonesMessageAbove.style.display = 'none';
         }
     }
 
@@ -212,11 +241,29 @@
             }
         }
 
-        const productPhonesDiv = $('.product-phones');
-        const visiblePhones = productPhonesDiv.find('.kartya[style="display: block;"]');
-        if (selectedManufacturer !== 'all' && visiblePhones.length === 0) {
-            productPhonesDiv.empty();
-            productPhonesDiv.append('<p>No phones assigned.</p>');
+        if (manufacturerId === 'all') {
+            filterPhones();
+        }
+
+        const productPhonesDiv = document.querySelector('.product-phones');
+        const below1500 = document.getElementById('below1500').checked;
+        const above1500 = document.getElementById('above1500').checked;
+        const visiblePhonesBelow = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
+        const visiblePhonesAbove = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
+
+        const noPhonesMessageBelow = document.getElementById('noPhonesMessageBelow');
+        const noPhonesMessageAbove = document.getElementById('noPhonesMessageAbove');
+
+        if (below1500 && visiblePhonesBelow.length === 0) {
+            noPhonesMessageBelow.style.display = 'block';
+        } else {
+            noPhonesMessageBelow.style.display = 'none';
+        }
+
+        if (above1500 && visiblePhonesAbove.length === 0) {
+            noPhonesMessageAbove.style.display = 'block';
+        } else {
+            noPhonesMessageAbove.style.display = 'none';
         }
     }
 
@@ -238,11 +285,11 @@
 
         selectedManufacturer = manufacturerId;
         filterManufacturers(selectedManufacturer);
-
     }
 
     updateManufacturerFilter(selectedManufacturer);
 </script>
+
 
 
 </body>

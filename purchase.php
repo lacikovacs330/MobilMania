@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "user") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,6 +54,11 @@
     if (!isset($_POST["color"]))
     {
         header("Location:product.php?id_phone=$id_phone&error=101");
+    }
+
+    if (!isset($_POST["storage"]))
+    {
+        header("Location:product.php?id_phone=$id_phone&error=999");
     }
 
     if (isset($_POST["quantity"]) >5 and isset($_POST["quantity"]) < 1)
@@ -129,6 +147,12 @@
                 <span>COLOR:</span>
                 <p><?php echo $_POST["color"]; ?></p>
                 <input type="hidden" value="<?php echo $_POST["color"]; ?>" name="color" id="color">
+            </div>
+
+            <div class="title-row">
+                <span>STORAGE:</span>
+                <p><?php echo $_POST["storage"] . " GB"; ?></p>
+                <input type="hidden" value="<?php echo $_POST["storage"]; ?>" name="storage" id="storage">
             </div>
             <div class="title-row">
                 <span>QUANTITY:</span>

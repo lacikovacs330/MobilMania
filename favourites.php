@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "user") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>

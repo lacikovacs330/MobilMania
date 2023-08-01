@@ -1,3 +1,17 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "admin") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -131,7 +145,15 @@
 <body>
 
 <div class="nav-phones">
-    <?php include "includes/nav.php";
+
+
+    <?php
+
+    include "includes/nav.php";
+
+
+
+    $conn = connectDatabase($dsn, $pdoOptions);
 
     $sql = "SELECT * FROM manufacturers";
     $stmt =$conn->prepare($sql);
@@ -146,6 +168,7 @@
     $sql7 = "SELECT DISTINCT id_phone, model FROM phones";
     $stmt7 = $conn->query($sql7);
     $results7 = $stmt7->fetchAll(PDO::FETCH_ASSOC);
+
     ?>
 </div>
 
@@ -739,6 +762,65 @@
         ?>
 
         <button type="submit" id="color-btn" name="color-btn" class="btn" style="background-color:#6A5ACD; color: white; width: 95%; margin-top: 15px;">Add color</button>
+    </form>
+</div>
+<br>
+
+
+<div class="add_manufacturer">
+    <h2>Add quantity</h2>
+    <hr style="width: 30%; margin-top: 15px; margin-bottom: 15px;">
+    <form action="quantity.php" method="post" enctype="multipart/form-data">
+
+        <div class="select-wrapper">
+            <select id="model_id" name="model_id" style="padding: 10px">
+                <option value="" selected disabled>Select phone</option>
+                <?php
+                if ($stmt7->rowCount() > 0) {
+                    foreach ($results7 as $row7) {
+                        $model = $row7['model'];
+                        $model_id = $row7["id_phone"];
+                        echo '<option value="' . $model_id . '" id="' . $model_id . '" name="model">' . $model . '</option>';
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <br>
+        <div class="input-wrapper">
+            <input type="number" id="quantity_number" name="quantity_number"  style="padding: 10px">
+            <label for="user">Add number</label>
+        </div>
+
+        <?php
+        if (isset($_GET["error"]) and $_GET["error"] == 1000)
+        {
+            echo '<div class="success-message2">Success!</div>';
+        }
+
+        if (isset($_GET["error"]) and $_GET["error"] == 1001)
+        {
+            echo '<div class="error-message2">You can only enter a number!</div>';
+        }
+
+        if (isset($_GET["error"]) and $_GET["error"] == 1002)
+        {
+            echo '<div class="error-message2">Fill in all fields!</div>';
+        }
+
+        if (isset($_GET["error"]) and $_GET["error"] == 1003)
+        {
+            echo '<div class="error-message2">Enter normal format!</div>';
+        }
+
+        if (isset($_GET["error"]) and $_GET["error"] == 1004)
+        {
+            echo '<div class="error-message2">This phone has already been ordered quantity!</div>';
+        }
+
+        ?>
+
+        <button type="submit" id="quantity-btn" name="quantity-btn" class="btn" style="background-color:#6A5ACD; color: white; width: 95%; margin-top: 15px;">Add quantity!</button>
     </form>
 </div>
 <br>

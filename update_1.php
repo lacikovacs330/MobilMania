@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "admin") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -145,6 +158,37 @@
                 ?>
                 <input type="submit" value="Delete Storage" style="margin-top: 10px">
             </form>
+
+            <form action="update_quantity.php" method="post" id="quantity-form">
+                <input type="hidden" name="phone_id" value="<?php echo $phone['id_phone']; ?>">
+                <label for="color">Quantity:</label>
+                <?php
+                $sql_quantity = "SELECT number FROM quantity WHERE id_phone = {$phone['id_phone']}";
+                $stmt_quantity = $conn->query($sql_quantity);
+                $quantity_data = $stmt_quantity->fetch(PDO::FETCH_ASSOC);
+                $quantity_value = $quantity_data['number'] ?? 0;
+                ?>
+                <input type="number" name="quantity_number" value="<?php echo $quantity_value; ?>">
+                <?php
+                if (isset($_GET["error"]) && $_GET["error"] == 5000) {
+                    echo '<div class="error-message2" style="width: 100%">Enter normal format!</div>';
+                }
+
+                if (isset($_GET["error"]) && $_GET["error"] == 5001) {
+                    echo '<div class="error-message2" style="width: 100%">Error!</div>';
+                }
+
+                if (isset($_GET["error"]) && $_GET["error"] == 5002) {
+                    echo '<div class="error-message2" style="width: 100%">The number must be greater than 5!</div>';
+                }
+
+                if (isset($_GET["ok"]) && $_GET["ok"] == 5) {
+                    echo '<div class="success-message2" style="width: 100%">Success!</div>';
+                }
+                ?>
+                <input type="submit" value="Update Quantity" style="margin-top: 10px">
+            </form>
+
         </div>
 
         <hr>

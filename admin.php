@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "admin") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -31,6 +44,14 @@
             $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
             $stmt->execute();
         }
+
+        if (isset($_GET["delete_id"])) {
+            $deleteId = $_GET["delete_id"];
+            $sql_delete_message = "DELETE FROM contact WHERE id_contact = :delete_id";
+            $stmt_delete_message = $conn->prepare($sql_delete_message);
+            $stmt_delete_message->bindParam(":delete_id", $deleteId, PDO::PARAM_INT);
+            $stmt_delete_message->execute();
+        }
     }
 
     $sql = "SELECT id_phone, model, price, visible FROM phones";
@@ -42,9 +63,14 @@
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql = "SELECT order_number,id_phone, color, quantity, price, storage, firstname, lastname, phonenumber, date FROM orders";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
 </div>
-
+<hr>
 <h3 style="text-align: center; margin-top: 15px;">Visibility of phones</h3>
 <div style="width: 100%; display: flex;justify-content: center;align-items: center; margin-top: 20px">
     <div class="admin-table" style="width: 80%;">
@@ -71,7 +97,7 @@
         </table>
     </div>
 </div>
-
+<hr>
 <h3 style="text-align: center; margin-top: 15px;">User ban</h3>
 <div style="width: 100%; display: flex;justify-content: center;align-items: center; margin-top: 20px;  margin-bottom: 25px;">
     <div class="admin-table" style="width: 80%;">
@@ -98,14 +124,106 @@
         </table>
     </div>
 </div>
+<hr>
+<h3 style="text-align: center; margin-top: 15px;">Orders</h3>
+<div style="width: 100%; display: flex;justify-content: center;align-items: center; margin-top: 20px">
+    <div class="admin-table" style="width: 80%;">
+        <table id="orderTable" class="display">
+            <thead>
+            <tr>
+                <th>Order Number</th>
+                <th>Phone Name</th>
+                <th>Color</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone Number</th>
+                <th>Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?php echo $order['order_number']; ?></td>
+                    <td>
+                        <?php
+                        $id_phone = $order['id_phone'];
 
+                        $sql2 = "SELECT model FROM phones WHERE id_phone = :id_phone";
+                        $stmt2 = $conn->prepare($sql2);
+                        $stmt2->bindParam(":id_phone", $id_phone, PDO::PARAM_INT);
+                        $stmt2->execute();
+                        $phone = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+                        echo $phone['model'];
+                        ?>
+                    </td>
+                    <td style="text-transform: capitalize; "><?php echo $order['color']; ?></td>
+                    <td><?php echo $order['firstname']; ?></td>
+                    <td><?php echo $order['lastname']; ?></td>
+                    <td><?php echo $order['phonenumber']; ?></td>
+                    <td><?php echo $order['date']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<hr>
+<h3 style="text-align: center; margin-top: 15px;">Contact Messages</h3>
+<div style="width: 100%; display: flex;justify-content: center;align-items: center; margin-top: 20px">
+    <div class="admin-table" style="width: 80%;">
+        <table id="contactTable" class="display">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Message</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php
+            $sql_contact = "SELECT id_contact, id_user, email, mobile, message FROM contact";
+            $stmt_contact = $conn->prepare($sql_contact);
+            $stmt_contact->execute();
+            $contactMessages = $stmt_contact->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($contactMessages as $message) {
+                ?>
+                <tr>
+                    <td><?php echo $message['id_contact']; ?></td>
+                    <td><?php echo $message['email']; ?></td>
+                    <td><?php echo $message['mobile']; ?></td>
+                    <td><?php echo $message['message']; ?></td>
+                    <td>
+                        <form method="POST">
+                            <input type="hidden" name="delete_id" value="<?php echo $message['id_contact']; ?>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php
+            }
+            ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="margin-top: 30px"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#orderTable').DataTable();
+
         $('#phoneTable').DataTable();
 
         $('#userTable').DataTable();
+
+        $('#contactTable').DataTable();
 
         $('.visibilityCheckbox').on('change', function () {
             var phoneId = $(this).data('phone-id');

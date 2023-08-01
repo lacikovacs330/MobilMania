@@ -96,31 +96,61 @@
     </div>
 
 
+
     <div class="contact-right">
+
         <div class="contact-email">
             <div class="contact-text">
-                <h4>Contact</h4>
+                <h4 style="margin-bottom: 15px">Contact</h4>
+                <form method="post" action="contact_checker.php">
+
                 <div class="input-with-icon">
-                    <input type="text" placeholder="Name" id="username" name="username" style="width: 100%; margin-bottom: 2rem; margin-top: 1rem; font-size: 13px;">
+                    <input type="email" placeholder="Email" id="email" name="email" style="width: 100%; margin-bottom: 2rem; font-size: 13px;">
                 </div>
 
                 <div class="input-with-icon">
-                    <input type="text" placeholder="Email" id="username" name="username" style="width: 100%; margin-bottom: 2rem; font-size: 13px;">
+                    <input type="number" placeholder="Mobile number" id="mobile" name="mobile" style="width: 100%; margin-bottom: 2rem; font-size: 13px;">
                 </div>
 
                 <div class="input-with-icon">
-                    <input type="text" placeholder="Mobile number" id="username" name="username" style="width: 100%; margin-bottom: 2rem; font-size: 13px;">
+                    <textarea rows="4" cols="50" style="resize: none; width: 100%; font-size: 13px;" placeholder="Message" id="message" name="message"></textarea>
                 </div>
 
-                <div class="input-with-icon">
-                    <textarea rows="4" cols="50" style="resize: none; width: 100%; font-size: 13px;" placeholder="Message"></textarea>
-                </div>
+                    <?php
+                    if (isset($_GET["ok"]) and $_GET["ok"] == 1)
+                    {
+                        echo '<div class="success-message2" style="width: 100%">Success!</div>';
+                    }
 
-                <button type="button" class="btn" style="background-color:#6A5ACD; color: white; width: 100%; margin-top: 1rem;">Send</button>
+                    if (isset($_GET["error"]) and $_GET["error"] == 1)
+                    {
+                        echo '<div class="error-message2" style="width: 100%">Enter normal email format!</div>';
+                    }
 
+                    if (isset($_GET["error"]) and $_GET["error"] == 2)
+                    {
+                        echo '<div class="error-message2" style="width: 100%">Enter normal mobile format!</div>';
+                    }
+
+                    if (isset($_GET["error"]) and $_GET["error"] == 3)
+                    {
+                        echo '<div class="error-message2" style="width: 100%">Fill in all fields!</div>';
+                    }
+
+                    if (isset($_GET["error"]) and $_GET["error"] == 4)
+                    {
+                        echo '<div class="error-message2" style="width: 100%">Fill in all fields!</div>';
+                    }
+
+                    ?>
+
+                <button type="submit" class="btn" id="contact-btn" name="contact-btn" style="background-color:#6A5ACD; color: white; width: 100%; margin-top: 1rem;">Send</button>
+                </form>
             </div>
         </div>
+
     </div>
+
 </div>
 
 <script>

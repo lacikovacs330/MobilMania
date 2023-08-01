@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "user") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <div class="nav-phones">
     <?php include "includes/nav.php";
     $conn = connectDatabase($dsn, $pdoOptions);
@@ -31,9 +44,11 @@ $results1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                     <th scope="col">Phone name</th>
                     <th scope="col">Color</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Storage</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Date of order</th>
                     <th scope="col">Delivery date</th>
+                    <th scope="col">Order number</th>
                 </tr>
                 </thead>
                 <?php foreach ($results1 as $row1):
@@ -56,10 +71,12 @@ $results1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
                             ?>
                         </td>
                         <td style="text-transform: capitalize;"><?php echo $row1["color"];?></td>
-                        <td><?php echo $row1["price"];?></td>
+                        <td><?php echo $row1["price"] . " $";?></td>
+                        <td><?php echo $row1["storage"] . " GB";?></td>
                         <td><?php echo $row1["quantity"];?></td>
                         <td><?php echo $row1["date"]; ?></td>
                         <td><?php echo date('Y-m-d', strtotime($row1["date"] . ' +3 days')); ?></td>
+                        <td><?php echo $row1["order_number"]; ?></td>
                     </tr>
                     </tbody>
                 <?php }

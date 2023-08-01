@@ -10,6 +10,8 @@
 </head>
 
 <style>
+
+
     .rating {
         display: inline-block;
         font-size: 24px;
@@ -60,6 +62,11 @@
     $stmt5 = $conn->prepare($sql5);
     $stmt5->execute();
     $results5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
+
+    $sql99 = "SELECT * FROM quantity WHERE id_phone = '$id_phone'";
+    $stmt99 = $conn->prepare($sql99);
+    $stmt99->execute();
+    $results99 = $stmt99->fetchAll(PDO::FETCH_ASSOC);
 
     $sql6 = "SELECT COUNT(*) AS total FROM ratings WHERE id_phone = '$id_phone'";
     $stmt6 = $conn->prepare($sql6);
@@ -305,16 +312,36 @@
                 <div class="checkbox-wrapper">
                     <?php if ($stmt5->rowCount() > 0) {
                         foreach ($results5 as $row5) {
+                        if (isset($_SESSION["id_user"]))
+                        {
                             echo '       
-            <label class="checkbox"  style="margin-left: 2px">
-                <input type="radio" name="storage" value="'.$row5["storage"].'">
-                <span class="checkmark" ></span>
-                <span class="checkbox-text">'.$row5["storage"].' GB</span>
-            </label>
-        ';
+                            <label class="checkbox"  style="margin-left: 2px">
+                            <input type="radio" name="storage" id="storage" value="'.$row5["storage"].'">
+                            <span class="checkmark" ></span>
+                            <span class="checkbox-text">'.$row5["storage"].' GB</span>
+                            </label>
+                             ';
+                        }
+                        else
+                        {
+                            echo '       
+                            <label class="checkbox"  style="margin-left: 2px">
+                            <input type="radio" name="storage" id="storage" value="'.$row5["storage"].'" disabled>
+                            <span class="checkmark" ></span>
+                            <span class="checkbox-text">'.$row5["storage"].' GB</span>
+                            </label>
+                             ';
+                        }
                         }
                     }?>
                 </div>
+
+                <?php
+                if (isset($_GET["error"]) and $_GET["error"] == 999)
+                {
+                    echo '<div class="error-message2" style="width: 50%; "> Choose a storage!</div>';
+                }
+                ?>
 
                 <?php if (isset($_SESSION["id_user"])) { ?>
                 <div class="product-number">
@@ -343,12 +370,22 @@
                     <?php
                     if (isset($_SESSION["id_user"]))
                     {
-                        echo'<button type="submit" class="btn" id="purchase-btn" name="purchase-btn">Purchase</button>';
+                        if ($stmt99->rowCount() > 0) {
+                            foreach ($results99 as $row99) {
+                                if ($row99["number"] <= 0)
+                                {
+                                    echo'<button class="btn" style="border: 1px solid #ff0000; background-color: #ff9898; color: #000000; cursor: not-allowed;" disabled>Sold out!</button>';
+                                }
+                                else
+                                {
+                                    echo'<button type="submit" class="btn" id="purchase-btn" name="purchase-btn">Purchase</button>';
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        echo'<button class="btn" style="border: 1px solid #ff0000; background-color: #ff9898; color: #000000; cursor: not-allowed;" disabled>Sign in to make a purchase.</button>
-';
+                        echo'<button class="btn" style="border: 1px solid #ff0000; background-color: #ff9898; color: #000000; cursor: not-allowed;" disabled>Sign in to make a purchase.</button>';
                     }
                     ?>
 

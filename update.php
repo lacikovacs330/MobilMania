@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "admin") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -125,7 +138,7 @@
             <?php endforeach; ?>
         <?php else: ?>
             <div style="width: 100%; height: 350px;display: flex; justify-content: center; align-items: center">
-                <p style="text-align: center;">Nincs telefon hozzárendelve.</p>
+                <p style="text-align: center;">No phone assigned.</p>
             </div>
         <?php endif; ?>
     </div>

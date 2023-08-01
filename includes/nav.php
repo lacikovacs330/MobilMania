@@ -53,7 +53,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                 $stmt = $conn->query("SELECT * FROM users WHERE id_user = '$_SESSION[id_user]' ");
                 if ($row = $stmt->fetch()) {
                     $id_user = $row["id_user"];
+                    $role = $row["role"];
+
                     $_SESSION["id_user"] = $id_user;
+                    $_SESSION["role"] = $role;
 
                     if ($row["role"] == "admin") {
 

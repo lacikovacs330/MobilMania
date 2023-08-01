@@ -1,3 +1,16 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (!isset($_SESSION["id_user"]) || $_SESSION["role"] !== "user") {
+    header("Location: index.php");
+    exit;
+}
+
+session_write_close();
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -34,6 +47,8 @@ if ($_GET["delivery_method"] == "Home delivery")
     $sanda = $_GET["sanda"];
     $phonenumber = $_GET["phonenumber"];
     $delivery_method = $_GET["delivery_method"];
+    $storage = $_GET["storage"];
+    $order_number = $_GET["order_number"];
 
     $color = $_GET["color"];
     $price = $_GET["price"];
@@ -52,12 +67,14 @@ if ($_GET["delivery_method"] == "Home delivery")
             <th scope="col">Phone name</th>
             <th scope="col">Color</th>
             <th scope="col">Price</th>
+            <th scope="col">Storage</th>
             <th scope="col">Quantity</th>
             <th scope="col">First name</th>
             <th scope="col">Last name</th>
             <th scope="col">City</th>
             <th scope="col">Street and Address</th>
             <th scope="col">Phone number</th>
+            <th scope="col">Order number</th>
         </tr>
         </thead>
         <tbody>
@@ -69,12 +86,14 @@ if ($_GET["delivery_method"] == "Home delivery")
             <?php  } ?>
             <td style="text-transform: capitalize;"><?php echo $color;?></td>
             <td><?php echo $price;?>.<small>00 €</small></td>
+            <td><?php echo $storage;?></td>
             <td><?php echo $quantity;?></td>
             <td><?php echo $fname;?></td>
             <td><?php echo $lname;?></td>
             <td><?php echo $city;?></td>
             <td><?php echo $sanda;?></td>
             <td><?php echo $phonenumber;?></td>
+            <td><?php echo $order_number;?></td>
         </tr>
         </tbody>
     </table>
@@ -95,10 +114,13 @@ if ($_GET["delivery_method"] == "Postal recording")
     $phonenumber = $_GET["phonenumber"];
     $delivery_method = $_GET["delivery_method"];
     $postOffice = $_GET["postOffice"];
+    $order_number = $_GET["order_number"];
+
 
     $color = $_GET["color"];
     $price = $_GET["price"];
     $quantity = $_GET["quantity"];
+    $storage = $_GET["storage"];
 
     $sql = "SELECT * FROM phones WHERE id_phone = '$id_phone'";
     $stmt = $conn->prepare($sql);
@@ -110,11 +132,16 @@ if ($_GET["delivery_method"] == "Postal recording")
             <thead>
             <tr>
                 <th scope="col">Phone name</th>
+                <th scope="col" >Color</th>
+                <th scope="col">Price</th>
+                <th scope="col">Storage</th>
+                <th scope="col">Quantity</th>
                 <th scope="col">First name</th>
                 <th scope="col">Last name</th>
                 <th scope="col">City</th>
                 <th scope="col">Phone number</th>
                 <th scope="col">Post Office</th>
+                <th scope="col">Order number</th>
             </tr>
             </thead>
             <tbody>
@@ -124,11 +151,16 @@ if ($_GET["delivery_method"] == "Postal recording")
                         <td><?php echo $row["model"];?></td>
                     <?php } ?>
                 <?php  } ?>
+                <td style="text-transform: capitalize;"><?php echo $color;?></td>
+                <td><?php echo $price;?></td>
+                <td><?php echo $storage;?></td>
+                <td><?php echo $quantity;?></td>
                 <td><?php echo $fname;?></td>
                 <td><?php echo $lname;?></td>
                 <td><?php echo $city;?></td>
                 <td><?php echo $phonenumber;?></td>
                 <td><?php echo $postOffice;?></td>
+                <td><?php echo $order_number;?></td>
             </tr>
             </tbody>
         </table>
