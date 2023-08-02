@@ -28,7 +28,7 @@ function sendMail($token, $email, $subject)
 
         $mail->isHTML(true);
         $mail->Subject = $subject;
-        $mail->Body = "Erősítsd meg a regisztrációt: <a href='http://localhost/MobilMania/active.php?token=$token'><b>Megerősítés</b></a>";
+        $mail->Body = "Confirm your registration: <a href='http://localhost/MobilMania/active.php?token=$token'><b>Confirmation</b></a>";
 
         $mail->send();
         return true;

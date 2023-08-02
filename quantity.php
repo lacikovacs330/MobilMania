@@ -26,6 +26,12 @@ if (isset($_POST["phone_id"]) && isset($_POST["quantity_number"])) {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($result['count'] === '0') {
+        $sql_insert_quantity = "INSERT INTO quantity (id_phone, number) VALUES (:phone_id, :quantity_number)";
+        $stmt = $conn->prepare($sql_insert_quantity);
+        $stmt->bindParam(':phone_id', $phone_id);
+        $stmt->bindParam(':quantity_number', $quantity_number);
+        $stmt->execute();
+
         header("Location: update_1.php?id_phone=$phone_id&error=5001");
         exit;
     }
@@ -37,7 +43,7 @@ if (isset($_POST["phone_id"]) && isset($_POST["quantity_number"])) {
         $stmt->bindParam(':phone_id', $phone_id);
         $stmt->execute();
 
-        header("Location: update_1.php?id_phone=$phone_id&ok=5");
+        header("Location: add_phones.php?id_phone=$phone_id&ok=5");
         exit;
     }
 } else {

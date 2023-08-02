@@ -74,7 +74,7 @@
     });
 </script>
 
-<div style="width: 100%; height: auto; display: flex">
+<div class="asd">
     <div class="filter">
         <?php
         $sqlManufacturers = "SELECT DISTINCT manufacturers.id_manufacturer, manufacturers.manufacturer
@@ -155,7 +155,7 @@
             <?php endforeach; ?>
         <?php else: ?>
             <div style="width: 100%; height: 350px;display: flex; justify-content: center; align-items: center">
-                <p style="text-align: center;">No phone assigned.p</p>
+                <p style="text-align: center;">No phone assigned.</p>
             </div>
         <?php endif; ?>
 

@@ -767,12 +767,12 @@ session_write_close();
 <br>
 
 
-<div class="add_manufacturer">
+<div class="add_manufacturer"  style="display: none">
     <h2>Add quantity</h2>
     <hr style="width: 30%; margin-top: 15px; margin-bottom: 15px;">
     <form action="quantity.php" method="post" enctype="multipart/form-data">
 
-        <div class="select-wrapper">
+        <div class="select-wrapper" style="display: none">
             <select id="model_id" name="model_id" style="padding: 10px">
                 <option value="" selected disabled>Select phone</option>
                 <?php

@@ -968,6 +968,11 @@ ul.contact-list a{
     align-items: center;
 }
 
+.asd{
+    width: 100%; height: auto; display: flex;
+
+}
+
 .contact-email{
     width: 60%;
     height: 410px;
@@ -985,8 +990,17 @@ ul.contact-list a{
 }
 
 
-@media only screen and (max-width: 1270px) {
+@media only screen and (max-width: 670px) {
+    .asd{
+        display: flex;
+        flex-direction: column;
+    }
 
+    .product-phones{
+        width: 100%;
+        border-left: 0;
+        border-top: 1px solid black;
+    }
 }
 
 @media only screen and (max-width: 1270px) {
