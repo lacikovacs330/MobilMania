@@ -372,7 +372,7 @@
                     {
                         if ($stmt99->rowCount() > 0) {
                             foreach ($results99 as $row99) {
-                                if ($row99["number"] <= 0)
+                                if ($row99["number"] < 5)
                                 {
                                     echo'<button class="btn" style="border: 1px solid #ff0000; background-color: #ff9898; color: #000000; cursor: not-allowed;" disabled>Sold out!</button>';
                                 }

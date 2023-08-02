@@ -210,7 +210,7 @@ session_write_close();
         </div>
 
         <div id="cities" style="display: none;">
-            <label for="city">Város:</label>
+            <label for="city">City:</label>
             <select id="city" name="city" onchange="showPostOffices()" style=" background-color: lavender; border-radius: 15px">
                 <option value="Budapest">Budapest</option>
                 <option value="Debrecen">Debrecen</option>
@@ -220,10 +220,12 @@ session_write_close();
         </div>
 
         <div id="postOffices" style="display: none; padding-bottom: 15px;">
-            <label for="postOffice" >Posta:</label>
+            <label for="postOffice" >Postal:</label>
             <select id="postOffice" style=" background-color: lavender; border-radius: 15px" name="postOffice">
             </select>
         </div>
+
+        <h6>Free shipping over $1000!</h6>
 
     </div>
 
