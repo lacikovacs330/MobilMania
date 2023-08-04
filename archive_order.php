@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt_insert_archived_order->bindParam(":date", $order['date'], PDO::PARAM_STR);
 
             if ($stmt_insert_archived_order->execute()) {
+
                 $sql_delete_order = "DELETE FROM orders WHERE order_number = :order_number";
                 $stmt_delete_order = $conn->prepare($sql_delete_order);
                 $stmt_delete_order->bindParam(":order_number", $orderNumber, PDO::PARAM_STR);

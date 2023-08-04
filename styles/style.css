@@ -328,12 +328,16 @@ label {
     width: 20%;
     height: auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: column-reverse;
     margin: auto;
     padding-bottom: 60px;
 }
+.filter div {
+    margin-bottom: 10px;
+}
+
 
 .kartya:hover .tartalomDoboz .vasarlas {
     top: 0;
@@ -990,10 +994,14 @@ ul.contact-list a{
 }
 
 
-@media only screen and (max-width: 670px) {
+@media only screen and (max-width: 730px) {
     .asd{
         display: flex;
         flex-direction: column;
+    }
+
+    .checkbox-container label {
+        width: 100px;
     }
 
     .product-phones{
@@ -1116,18 +1124,6 @@ ul.contact-list a{
 .add_manufacturer h2{
     margin-top: 15px;
 }
-
-
-/*
-    <div class="input-wrapper">
-        <input type="password" required>
-        <label for="user">password</label>
-    </div>
-
-    <select name="manufacturer" id="manufacturer">
-        <option>Volvo</option>
-    </select>
-*/
 
 #smallImageContainer{
     display: flex;

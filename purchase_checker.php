@@ -76,18 +76,20 @@ if (isset($_POST["purchase-btn"]))
             $pdoQuery->execute([$id_phone, $orderNumber, $id_user, $color,$quantity,$price,$storage, $fname,$lname,$phonenumber,$delivery_method,$city2,""]);
             header("Location:purchase_ok.php?id_phone=$id_phone&order_number=$orderNumber&storage=$storage&id_user=$id_user&fname=$fname&lname=$lname&city=$city2&sanda=$sanda&phonenumber=$phonenumber&delivery_method=$delivery_method&color=$color&price=$price&quantity=$quantity");
 
-            $sql_get_current_quantity = "SELECT number FROM quantity WHERE id_phone = :phone_id";
+            $sql_get_current_quantity = "SELECT quantity FROM colors WHERE id_phone = :phone_id AND color = :color";
             $stmt = $conn->prepare($sql_get_current_quantity);
             $stmt->bindParam(':phone_id', $id_phone);
+            $stmt->bindParam(':color', $color);
             $stmt->execute();
             $current_quantity = $stmt->fetchColumn();
 
             $remaining_quantity = $current_quantity - $quantity;
 
-            $sql_update_quantity = "UPDATE quantity SET number = :remaining_quantity WHERE id_phone = :phone_id";
+            $sql_update_quantity = "UPDATE colors SET quantity = :remaining_quantity WHERE id_phone = :phone_id AND color = :color";
             $stmt = $conn->prepare($sql_update_quantity);
             $stmt->bindParam(':remaining_quantity', $remaining_quantity);
             $stmt->bindParam(':phone_id', $id_phone);
+            $stmt->bindParam(':color', $color);
             $stmt->execute();
 
             $sql = "SELECT email FROM users WHERE id_user = :id_user";
@@ -108,18 +110,20 @@ if (isset($_POST["purchase-btn"]))
             $pdoQuery->execute([$id_phone, $orderNumber, $id_user, $color,$quantity,$price,$storage, $fname,$lname,$phonenumber,$delivery_method,$city2,""]);
             header("Location:purchase_ok.php?id_phone=$id_phone&order_number=$orderNumber&storage=$storage&id_user=$id_user&fname=$fname&lname=$lname&city=$city2&sanda=$sanda&phonenumber=$phonenumber&delivery_method=$delivery_method&color=$color&price=$price&quantity=$quantity");
 
-            $sql_get_current_quantity = "SELECT number FROM quantity WHERE id_phone = :phone_id";
+            $sql_get_current_quantity = "SELECT quantity FROM colors WHERE id_phone = :phone_id AND color = :color";
             $stmt = $conn->prepare($sql_get_current_quantity);
             $stmt->bindParam(':phone_id', $id_phone);
+            $stmt->bindParam(':color', $color);
             $stmt->execute();
             $current_quantity = $stmt->fetchColumn();
 
             $remaining_quantity = $current_quantity - $quantity;
 
-            $sql_update_quantity = "UPDATE quantity SET number = :remaining_quantity WHERE id_phone = :phone_id";
+            $sql_update_quantity = "UPDATE colors SET quantity = :remaining_quantity WHERE id_phone = :phone_id AND color = :color";
             $stmt = $conn->prepare($sql_update_quantity);
             $stmt->bindParam(':remaining_quantity', $remaining_quantity);
             $stmt->bindParam(':phone_id', $id_phone);
+            $stmt->bindParam(':color', $color);
             $stmt->execute();
 
             $sql = "SELECT email FROM users WHERE id_user = :id_user";
@@ -145,18 +149,20 @@ if (isset($_POST["purchase-btn"]))
                 $pdoQuery->execute([$id_phone, $orderNumber, $id_user,$color,$quantity,$price ,$storage,$fname,$lname,$phonenumber,$delivery_method, $city, $postOffice]);
                 header("Location:purchase_ok.php?id_phone=$id_phone&order_number=$orderNumber&storage=$storage&id_user=$id_user&fname=$fname&lname=$lname&city=$city&sanda=$sanda&phonenumber=$phonenumber&delivery_method=$delivery_method&postOffice=$postOffice&color=$color&price=$price&quantity=$quantity");
 
-                $sql_get_current_quantity = "SELECT number FROM quantity WHERE id_phone = :phone_id";
+                $sql_get_current_quantity = "SELECT quantity FROM colors WHERE id_phone = :phone_id AND color = :color";
                 $stmt = $conn->prepare($sql_get_current_quantity);
                 $stmt->bindParam(':phone_id', $id_phone);
+                $stmt->bindParam(':color', $color);
                 $stmt->execute();
                 $current_quantity = $stmt->fetchColumn();
 
                 $remaining_quantity = $current_quantity - $quantity;
 
-                $sql_update_quantity = "UPDATE quantity SET number = :remaining_quantity WHERE id_phone = :phone_id";
+                $sql_update_quantity = "UPDATE colors SET quantity = :remaining_quantity WHERE id_phone = :phone_id AND color = :color";
                 $stmt = $conn->prepare($sql_update_quantity);
                 $stmt->bindParam(':remaining_quantity', $remaining_quantity);
                 $stmt->bindParam(':phone_id', $id_phone);
+                $stmt->bindParam(':color', $color);
                 $stmt->execute();
 
                 $sql = "SELECT email FROM users WHERE id_user = :id_user";
@@ -176,18 +182,20 @@ if (isset($_POST["purchase-btn"]))
                 $pdoQuery->execute([$id_phone, $orderNumber, $id_user,$color,$quantity,$price , $storage,$fname,$lname,$phonenumber,$delivery_method, $city, $postOffice]);
                 header("Location:purchase_ok.php?id_phone=$id_phone&order_number=$orderNumber&storage=$storage&id_user=$id_user&fname=$fname&lname=$lname&city=$city&sanda=$sanda&phonenumber=$phonenumber&delivery_method=$delivery_method&postOffice=$postOffice&color=$color&price=$price&quantity=$quantity");
 
-                $sql_get_current_quantity = "SELECT number FROM quantity WHERE id_phone = :phone_id";
+                $sql_get_current_quantity = "SELECT quantity FROM colors WHERE id_phone = :phone_id AND color = :color";
                 $stmt = $conn->prepare($sql_get_current_quantity);
                 $stmt->bindParam(':phone_id', $id_phone);
+                $stmt->bindParam(':color', $color);
                 $stmt->execute();
                 $current_quantity = $stmt->fetchColumn();
 
                 $remaining_quantity = $current_quantity - $quantity;
 
-                $sql_update_quantity = "UPDATE quantity SET number = :remaining_quantity WHERE id_phone = :phone_id";
+                $sql_update_quantity = "UPDATE colors SET quantity = :remaining_quantity WHERE id_phone = :phone_id AND color = :color";
                 $stmt = $conn->prepare($sql_update_quantity);
                 $stmt->bindParam(':remaining_quantity', $remaining_quantity);
                 $stmt->bindParam(':phone_id', $id_phone);
+                $stmt->bindParam(':color', $color);
                 $stmt->execute();
 
                 $sql = "SELECT email FROM users WHERE id_user = :id_user";

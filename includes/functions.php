@@ -87,7 +87,7 @@ function purchaseOK($orderNumber, $email, $subject, $id_phone)
         <div class='container'>
             <div class='message'>
                 <p>Thank you for your order.</p>
-                <p>Your order number: <span id='orderNumber'><a href='http://localhost/MobilMania/product.php?id_phone=$id_phone'>$orderNumber</a></span></p><br><br>
+                <p>Your order number: <span id='orderNumber'><a href='http://localhost/MobilMania/my_orders.php'>$orderNumber</a></span></p><br><br>
                 
                 <p>If you have any questions or an error has occurred, please contact us: <a href='http://localhost/MobilMania/contact.php'>Contact</a></p>
             </div>

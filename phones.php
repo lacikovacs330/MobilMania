@@ -9,6 +9,55 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
+<style>
+    .filter {
+        width: 100%;
+        height: auto;
+        text-align: center;
+        background-color: #ffffff;
+        color: gray;
+        padding: 20px;
+    }
+
+    .filter ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .filter li {
+        margin-bottom: 10px;
+    }
+
+    .filter a {
+        color: gray;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 16px;
+    }
+
+    .filter a:hover {
+        color: #b68cff;
+    }
+
+    .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .checkbox-container label {
+        margin-left: 5px;
+        width: 90px;
+    }
+
+</style>
+
+
+
 <body>
 <div class="nav-phones">
     <?php include "includes/nav.php";
@@ -78,15 +127,16 @@
     <div class="filter">
         <?php
         $sqlManufacturers = "SELECT DISTINCT manufacturers.id_manufacturer, manufacturers.manufacturer
-                         FROM manufacturers
-                         JOIN phones ON manufacturers.id_manufacturer = phones.id_manufacturer";
+                     FROM manufacturers
+                     JOIN phones ON manufacturers.id_manufacturer = phones.id_manufacturer";
         $stmtManufacturers = $conn->prepare($sqlManufacturers);
         $stmtManufacturers->execute();
         $manufacturers = $stmtManufacturers->fetchAll(PDO::FETCH_ASSOC);
         ?>
-        <ul>
+        <div style="width: 100%; height: auto;  text-align: center;">
+        <ul style="text-align: center; list-style: none;">
             <li>
-                <a href="#" onclick="updateManufacturerFilter('all')">All</a>
+                <a  href="#" onclick="updateManufacturerFilter('all')">All</a>
             </li>
             <?php foreach ($manufacturers as $manufacturer): ?>
                 <li>
@@ -96,12 +146,18 @@
                 </li>
             <?php endforeach; ?>
         </ul>
+        </div>
 
-        <label style="padding-bottom: 55px" for="below1500">Under $1500</label>
-        <input type="checkbox" id="below1500" onchange="updateFilter('below1500')">
+        <div class="checkbox-container">
+            <input type="checkbox" id="below1500" onchange="updateFilter('below1500')">
+            <label for="below1500">Under $1500</label>
+        </div>
 
-        <label  for="above1500">Over $1500</label >
-        <input type="checkbox" id="above1500" onchange="updateFilter('above1500')" >
+        <div class="checkbox-container">
+            <input type="checkbox" id="above1500" onchange="updateFilter('above1500')">
+            <label for="above1500">Over $1500</label>
+        </div>
+
     </div>
 
     <div class="product-phones">

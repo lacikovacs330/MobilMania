@@ -115,6 +115,11 @@ session_write_close();
                 {
                     echo '<div class="success-message2" style="width: 100%; margin-bottom: 10px; margin-top: 0px;">Success!</div>';
                 }
+
+                if (isset($_GET["error"]) and $_GET["error"] == 6001)
+                {
+                    echo '<div class="error-message2" style="width: 100%; margin-bottom: 10px; margin-top: 0px;">Enter normal format!</div>';
+                }
                 ?>
                 <input type="submit" value="Update">
             </form>
@@ -132,6 +137,11 @@ session_write_close();
                 if (isset($_GET["ok"]) and $_GET["ok"] == 2)
                 {
                     echo '<div class="success-message2" style="width: 100%">Success!</div>';
+                }
+
+                if (isset($_GET["error"]) and $_GET["error"] == 2)
+                {
+                    echo '<div class="error-message2" style="width: 100%">It cannot be deleted because it must remain the same color!</div>';
                 }
                 ?>
                 <input type="submit" value="Delete Color" style="margin-top: 10px">
@@ -155,20 +165,34 @@ session_write_close();
                 {
                     echo '<div class="success-message2" style="width: 100%">Success!</div>';
                 }
+
+                if (isset($_GET["error"]) and $_GET["error"] == 1)
+                {
+                    echo '<div class="error-message2" style="width: 100%">It cannot be deleted because it must remain the same storage!</div>';
+                }
                 ?>
                 <input type="submit" value="Delete Storage" style="margin-top: 10px">
             </form>
 
             <form action="update_quantity.php" method="post" id="quantity-form">
                 <input type="hidden" name="phone_id" value="<?php echo $phone['id_phone']; ?>">
-                <label for="color">Quantity:</label>
-                <?php
-                $sql_quantity = "SELECT number FROM quantity WHERE id_phone = {$phone['id_phone']}";
-                $stmt_quantity = $conn->query($sql_quantity);
-                $quantity_data = $stmt_quantity->fetch(PDO::FETCH_ASSOC);
-                $quantity_value = $quantity_data['number'] ?? 0;
-                ?>
-                <input type="number" name="quantity_number" value="<?php echo $quantity_value; ?>">
+                <label for="color">Color:</label>
+                <select name="color" style="text-transform: capitalize;" id="color-select" onchange="updateQuantity()">
+                    <option value="" disabled selected>Choose a color!</option>
+                    <?php
+                    $sql_colors = "SELECT DISTINCT color, quantity FROM colors WHERE id_phone = {$phone['id_phone']}";
+                    $stmt_colors = $conn->query($sql_colors);
+                    $colors_data = $stmt_colors->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($colors_data as $color_data) {
+                        $szin = $color_data['color'];
+                        echo '<option value="' . $szin . '">' . $szin . '</option>';
+                    }
+                    ?>
+                </select>
+                <br>
+                <label for="quantity_number">Quantity:</label>
+                <input type="number" name="quantity_number" id="quantity-input" value="">
+
                 <?php
                 if (isset($_GET["error"]) && $_GET["error"] == 5000) {
                     echo '<div class="error-message2" style="width: 100%">Enter normal format!</div>';
@@ -188,6 +212,23 @@ session_write_close();
                 ?>
                 <input type="submit" value="Update Quantity" style="margin-top: 10px">
             </form>
+
+            <script>
+                function updateQuantity() {
+                    var selectedColor = document.getElementById("color-select").value;
+                    var colorsData = <?php echo json_encode($colors_data); ?>;
+                    var selectedQuantity = 0;
+
+                    for (var i = 0; i < colorsData.length; i++) {
+                        if (colorsData[i]['color'] === selectedColor) {
+                            selectedQuantity = colorsData[i]['quantity'];
+                            break;
+                        }
+                    }
+
+                    document.getElementById("quantity-input").value = selectedQuantity;
+                }
+            </script>
 
         </div>
 

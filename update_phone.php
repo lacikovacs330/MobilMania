@@ -9,6 +9,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $model = $_POST['model'];
     $price = $_POST['price'];
 
+    if (!is_numeric($price) || $price < 0) {
+        header("Location:update_1.php?id_phone=$phone_id&error=6001");
+        exit;
+    }
+
     $sql_update_phone = "UPDATE phones SET price='$price' WHERE id_phone='$phone_id'";
 
     if ($conn->query($sql_update_phone)) {
@@ -19,3 +24,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Sikertelen árfrissítés: " . $errorInfo[2];
     }
 }
+?>

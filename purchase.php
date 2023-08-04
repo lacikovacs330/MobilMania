@@ -46,6 +46,20 @@ session_write_close();
         font-weight: bold;
     }
 
+    .purchase-item-phone {
+        width: 300px;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .purchase-item-phone img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
 </style>
 <body>
 
@@ -132,7 +146,7 @@ session_write_close();
         ?>
     <div class="purchase-item">
         <div class="purchase-item-phone">
-            <img src="<?= $img_name ?>" width="140" height="180">
+            <img src="<?= $img_name ?>">
         </div>
         <div class="purchase-title">
             <div class="title-row">
@@ -331,7 +345,29 @@ if (isset($_GET["error"]) and $_GET["error"] == 201)
 ?>
 
 <div style="width: 100%; display: flex; justify-content: center; align-items: center; height: auto">
-<button type="submit" id="purchase-btn" name="purchase-btn" class="btn" style="background-color:#6A5ACD; margin-bottom: 15px; color: white; width: 50%; margin-top: 30px">Purchase</button>
+    <?php
+    if (isset($_POST["quantity"]) && isset($_POST["color"]) && isset($_GET["id_phone"])) {
+        $phone_id = $_GET["id_phone"];
+        $color = $_POST["color"];
+
+        $sql_quantity = "SELECT quantity FROM colors WHERE id_phone = :phone_id AND color = :color";
+        $stmt_quantity = $conn->prepare($sql_quantity);
+        $stmt_quantity->execute(array(
+            ':phone_id' => $phone_id,
+            ':color' => $color
+        ));
+        $result_quantity = $stmt_quantity->fetch(PDO::FETCH_ASSOC);
+        $quantity = $result_quantity['quantity'];
+
+        if ($quantity < 5) {
+            echo'<button class="btn" style="border: 1px solid #ff0000; background-color: #ff9898; color: #000000;margin-bottom: 15px; cursor: not-allowed;" disabled>There is no better phone than this colour!</button>';
+        } else {
+            echo '<button type="submit" id="purchase-btn" name="purchase-btn" class="btn" style="background-color:#6A5ACD; margin-bottom: 15px; color: white; width: 50%; margin-top: 30px">Purchase</button>';
+        }
+    } else {
+        echo "Hiba: Hiányzó változók!";
+    }
+    ?>
 </div>
 </form>
 <?php }?>

@@ -30,8 +30,8 @@ if (isset($_POST["color-btn"]) and ($_FILES["image"]["name"][0] !== "") and isse
 
     if (ImgChecK($_FILES) == 1)
     {
-        $pdoQuery = $conn->prepare("INSERT INTO colors (id_phone, color) VALUES (?,?)");
-        $pdoQuery->execute([$model_id, $color_lower]);
+        $pdoQuery = $conn->prepare("INSERT INTO colors (id_phone, color, quantity) VALUES (?,?,?)");
+        $pdoQuery->execute([$model_id, $color_lower, 0]);
 
         $sql = "SELECT * FROM phones WHERE id_phone = '$model_id'";
         $res = $conn->query($sql);

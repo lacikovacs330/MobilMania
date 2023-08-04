@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Aug 02. 16:29
+-- Létrehozás ideje: 2023. Aug 04. 11:04
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -46,13 +46,6 @@ CREATE TABLE `archived_order` (
   `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `archived_order`
---
-
-INSERT INTO `archived_order` (`id_archived`, `id_order`, `id_phone`, `order_number`, `color`, `quantity`, `price`, `storage`, `id_user`, `firstname`, `lastname`, `phonenumber`, `delivery_method`, `city`, `postOffice`, `date`) VALUES
-(2, 90, 79, '20230802-0aaf01a2', 'blue', 3, 4500, 128, 78, 'Kovács', 'Szilvia', '+36202826172', 'Home delivery', 'Mosonmagyarovar', '', '2023-08-02');
-
 -- --------------------------------------------------------
 
 --
@@ -62,15 +55,9 @@ INSERT INTO `archived_order` (`id_archived`, `id_order`, `id_phone`, `order_numb
 CREATE TABLE `colors` (
   `id_color` int(11) NOT NULL,
   `id_phone` int(11) NOT NULL,
-  `color` varchar(255) NOT NULL
+  `color` varchar(255) NOT NULL,
+  `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `colors`
---
-
-INSERT INTO `colors` (`id_color`, `id_phone`, `color`) VALUES
-(158, 79, 'blue');
 
 -- --------------------------------------------------------
 
@@ -109,15 +96,6 @@ CREATE TABLE `manufacturers` (
   `manufacturer` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `manufacturers`
---
-
-INSERT INTO `manufacturers` (`id_manufacturer`, `manufacturer`) VALUES
-(5, 'SAMSUNG'),
-(6, 'APPLE'),
-(9, 'HUAWEII');
-
 -- --------------------------------------------------------
 
 --
@@ -141,13 +119,6 @@ CREATE TABLE `orders` (
   `postOffice` varchar(255) NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `orders`
---
-
-INSERT INTO `orders` (`id_order`, `id_phone`, `order_number`, `color`, `quantity`, `price`, `storage`, `id_user`, `firstname`, `lastname`, `phonenumber`, `delivery_method`, `city`, `postOffice`, `date`) VALUES
-(92, 79, '20230802-216cf996', 'blue', 3, 4500, 128, 78, 'Kovács', 'Szilvia', '+36202826172', 'Home delivery', 'Mosonmagyarovar', '', '2023-08-02');
 
 -- --------------------------------------------------------
 
@@ -201,32 +172,6 @@ CREATE TABLE `phones` (
   `visible` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `phones`
---
-
-INSERT INTO `phones` (`id_phone`, `id_manufacturer`, `model`, `price`, `operating_system`, `processor`, `operating_system_v`, `sim`, `screen_size`, `capacity`, `fm_radio`, `ram`, `external`, `internal`, `main_primary_camera`, `main_flash`, `main_video_record`, `main_face_detect`, `main_autofocus`, `main_led_flash`, `secondary_second`, `second_smile_detection`, `second_video`, `second_led_flash`, `second_flash`, `second_autofocus`, `wifi`, `bluetooth`, `usb`, `nfc`, `gps`, `mobile_network`, `2g`, `3g`, `4g`, `5g`, `weight`, `sms`, `email`, `height`, `width`, `length`, `visible`) VALUES
-(79, 6, 'Iphone 11', 1500, 'iOS 15', 'Apple A15 Bionic, 6-core Processor 3.2GHz and 4-core Graphics', 15, 'Dual SIM', 6.1, 3240, 'yes', 4, 'yes', 128, '12', 'yes', 'yes', 'yes', 'yes', 'yes', '12', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'A-GPS', 'yes', 'yes', 'yes', 'yes', 'yes', 174, 'yes', 'yes', 146.7, 7.65, 71.505, 1);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `quantity`
---
-
-CREATE TABLE `quantity` (
-  `id_quantity` int(11) NOT NULL,
-  `id_phone` int(11) NOT NULL,
-  `number` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `quantity`
---
-
-INSERT INTO `quantity` (`id_quantity`, `id_phone`, `number`) VALUES
-(1, 79, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -252,13 +197,6 @@ CREATE TABLE `storage` (
   `storage` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `storage`
---
-
-INSERT INTO `storage` (`id_storage`, `id_phone`, `storage`) VALUES
-(18, 79, 128);
-
 -- --------------------------------------------------------
 
 --
@@ -280,8 +218,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `token`, `status`, `role`) VALUES
-(70, 'lacikovacs330', '$2y$10$8PJEXpCiJcqvsEacjDvTr.TO9d0tnNKlIuwehMDRKg1kEGxxdpg72', 'lacikovacs330@gmail.com', '82b5583c24d248ddd212fb7ddd11a365', 1, 'admin'),
-(78, 'lacikovacs333', '$2y$10$xSUjAnmlV19Vs.1VS0/Vr.r0hhrnSDmPEhRhiL8kfb/lH91aINddS', 'lacikovacs333@gmail.com', 'bf59de11d088c1b2bb08f68811d0ac96', 1, 'user');
+(70, 'lacikovacs330', '$2y$10$8PJEXpCiJcqvsEacjDvTr.TO9d0tnNKlIuwehMDRKg1kEGxxdpg72', 'lacikovacs330@gmail.com', '82b5583c24d248ddd212fb7ddd11a365', 1, 'admin');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -340,13 +277,6 @@ ALTER TABLE `phones`
   ADD KEY `id_manufacturer` (`id_manufacturer`);
 
 --
--- A tábla indexei `quantity`
---
-ALTER TABLE `quantity`
-  ADD PRIMARY KEY (`id_quantity`),
-  ADD KEY `id_phone` (`id_phone`);
-
---
 -- A tábla indexei `ratings`
 --
 ALTER TABLE `ratings`
@@ -375,19 +305,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `archived_order`
 --
 ALTER TABLE `archived_order`
-  MODIFY `id_archived` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_archived` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT a táblához `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=159;
+  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
 
 --
 -- AUTO_INCREMENT a táblához `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `favourites`
@@ -405,19 +335,13 @@ ALTER TABLE `manufacturers`
 -- AUTO_INCREMENT a táblához `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
 
 --
 -- AUTO_INCREMENT a táblához `phones`
 --
 ALTER TABLE `phones`
-  MODIFY `id_phone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
-
---
--- AUTO_INCREMENT a táblához `quantity`
---
-ALTER TABLE `quantity`
-  MODIFY `id_quantity` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_phone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT a táblához `ratings`
@@ -429,7 +353,7 @@ ALTER TABLE `ratings`
 -- AUTO_INCREMENT a táblához `storage`
 --
 ALTER TABLE `storage`
-  MODIFY `id_storage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_storage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT a táblához `users`
@@ -442,10 +366,23 @@ ALTER TABLE `users`
 --
 
 --
+-- Megkötések a táblához `archived_order`
+--
+ALTER TABLE `archived_order`
+  ADD CONSTRAINT `archived_order_ibfk_1` FOREIGN KEY (`id_phone`) REFERENCES `phones` (`id_phone`),
+  ADD CONSTRAINT `archived_order_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+
+--
 -- Megkötések a táblához `colors`
 --
 ALTER TABLE `colors`
   ADD CONSTRAINT `colors_ibfk_1` FOREIGN KEY (`id_phone`) REFERENCES `phones` (`id_phone`);
+
+--
+-- Megkötések a táblához `contact`
+--
+ALTER TABLE `contact`
+  ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 
 --
 -- Megkötések a táblához `favourites`
@@ -458,8 +395,8 @@ ALTER TABLE `favourites`
 -- Megkötések a táblához `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_phone`) REFERENCES `phones` (`id_phone`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`id_phone`) REFERENCES `phones` (`id_phone`);
 
 --
 -- Megkötések a táblához `phones`

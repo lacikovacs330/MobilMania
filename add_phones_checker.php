@@ -186,11 +186,8 @@ if(isset($_POST["add-phone-btn"])
 
             $lastId = $conn->lastInsertId();
 
-            $pdoQuery = $conn->prepare("INSERT INTO quantity (id_phone, number) VALUES (?,?)");
-            $pdoQuery->execute([$lastId, 0]);
-
-            $pdoQuery = $conn->prepare("INSERT INTO colors (id_phone, color) VALUES (?,?)");
-            $pdoQuery->execute([$lastId, $color_lower]);
+            $pdoQuery = $conn->prepare("INSERT INTO colors (id_phone, color, quantity) VALUES (?,?,?)");
+            $pdoQuery->execute([$lastId, $color_lower,0]);
 
             $sql = "SELECT * FROM manufacturers WHERE id_manufacturer = '$id_manufacturer'";
             $res = $conn->query($sql);

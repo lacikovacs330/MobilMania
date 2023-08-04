@@ -38,6 +38,20 @@
     #ratingValue {
         font-weight: bold;
     }
+
+    #phone-image-container {
+        width: 300px;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    #phone-image {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        max-width: 100%;
+        max-height: 100%;
+    }
 </style>
 <body>
 <div class="nav-phones">
@@ -62,11 +76,6 @@
     $stmt5 = $conn->prepare($sql5);
     $stmt5->execute();
     $results5 = $stmt5->fetchAll(PDO::FETCH_ASSOC);
-
-    $sql99 = "SELECT * FROM quantity WHERE id_phone = '$id_phone'";
-    $stmt99 = $conn->prepare($sql99);
-    $stmt99->execute();
-    $results99 = $stmt99->fetchAll(PDO::FETCH_ASSOC);
 
     $sql6 = "SELECT COUNT(*) AS total FROM ratings WHERE id_phone = '$id_phone'";
     $stmt6 = $conn->prepare($sql6);
@@ -186,7 +195,7 @@
             }
         ?>
                 <div id="phone-image-container">
-                    <img id="phone-image" src="<?= $img_name ?>">
+                    <img id="phone-image" src="<?= $img_name ?>" >
                 </div>
             </div>
 
@@ -370,18 +379,7 @@
                     <?php
                     if (isset($_SESSION["id_user"]))
                     {
-                        if ($stmt99->rowCount() > 0) {
-                            foreach ($results99 as $row99) {
-                                if ($row99["number"] < 5)
-                                {
-                                    echo'<button class="btn" style="border: 1px solid #ff0000; background-color: #ff9898; color: #000000; cursor: not-allowed;" disabled>Sold out!</button>';
-                                }
-                                else
-                                {
                                     echo'<button type="submit" class="btn" id="purchase-btn" name="purchase-btn">Purchase</button>';
-                                }
-                            }
-                        }
                     }
                     else
                     {
