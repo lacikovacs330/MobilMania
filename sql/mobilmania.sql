@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2023. Aug 04. 11:04
+-- Létrehozás ideje: 2023. Aug 25. 01:19
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -59,6 +59,13 @@ CREATE TABLE `colors` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `colors`
+--
+
+INSERT INTO `colors` (`id_color`, `id_phone`, `color`, `quantity`) VALUES
+(171, 86, 'blue', 488);
+
 -- --------------------------------------------------------
 
 --
@@ -85,6 +92,13 @@ CREATE TABLE `favourites` (
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `favourites`
+--
+
+INSERT INTO `favourites` (`id_favourites`, `id_phone`, `id_user`) VALUES
+(72, 86, 81);
+
 -- --------------------------------------------------------
 
 --
@@ -95,6 +109,13 @@ CREATE TABLE `manufacturers` (
   `id_manufacturer` int(11) NOT NULL,
   `manufacturer` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `manufacturers`
+--
+
+INSERT INTO `manufacturers` (`id_manufacturer`, `manufacturer`) VALUES
+(14, 'APPLE');
 
 -- --------------------------------------------------------
 
@@ -119,6 +140,13 @@ CREATE TABLE `orders` (
   `postOffice` varchar(255) NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `orders`
+--
+
+INSERT INTO `orders` (`id_order`, `id_phone`, `order_number`, `color`, `quantity`, `price`, `storage`, `id_user`, `firstname`, `lastname`, `phonenumber`, `delivery_method`, `city`, `postOffice`, `date`) VALUES
+(132, 86, '20230824-245969ee', 'blue', 4, 6000, 256, 81, 'Kovács', 'László', '+381628176359', 'Home delivery', 'Bácska Topolya', '', '2023-08-24');
 
 -- --------------------------------------------------------
 
@@ -172,6 +200,13 @@ CREATE TABLE `phones` (
   `visible` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `phones`
+--
+
+INSERT INTO `phones` (`id_phone`, `id_manufacturer`, `model`, `price`, `operating_system`, `processor`, `operating_system_v`, `sim`, `screen_size`, `capacity`, `fm_radio`, `ram`, `external`, `internal`, `main_primary_camera`, `main_flash`, `main_video_record`, `main_face_detect`, `main_autofocus`, `main_led_flash`, `secondary_second`, `second_smile_detection`, `second_video`, `second_led_flash`, `second_flash`, `second_autofocus`, `wifi`, `bluetooth`, `usb`, `nfc`, `gps`, `mobile_network`, `2g`, `3g`, `4g`, `5g`, `weight`, `sms`, `email`, `height`, `width`, `length`, `visible`) VALUES
+(86, 14, 'Iphone 11', 1500, 'iOS 15', 'Apple A15 Bionic, 6-core Processor 3.2GHz and 4-core Graphics', 15, 'Dual SIM', 6.1, 3240, 'yes', 4, 'yes', 128, '12', 'yes', 'yes', 'yes', 'yes', 'yes', '12', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'A-GPS', 'yes', 'yes', 'yes', 'yes', 'yes', 174, 'yes', 'yes', 146.7, 7.65, 71.505, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -185,6 +220,13 @@ CREATE TABLE `ratings` (
   `id_user` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- A tábla adatainak kiíratása `ratings`
+--
+
+INSERT INTO `ratings` (`id_rating`, `id_phone`, `rating`, `id_user`) VALUES
+(31, 86, 3, 81);
+
 -- --------------------------------------------------------
 
 --
@@ -196,6 +238,13 @@ CREATE TABLE `storage` (
   `id_phone` int(11) NOT NULL,
   `storage` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `storage`
+--
+
+INSERT INTO `storage` (`id_storage`, `id_phone`, `storage`) VALUES
+(23, 86, 256);
 
 -- --------------------------------------------------------
 
@@ -218,7 +267,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `token`, `status`, `role`) VALUES
-(70, 'lacikovacs330', '$2y$10$8PJEXpCiJcqvsEacjDvTr.TO9d0tnNKlIuwehMDRKg1kEGxxdpg72', 'lacikovacs330@gmail.com', '82b5583c24d248ddd212fb7ddd11a365', 1, 'admin');
+(70, 'lacikovacs330', '$2y$10$8PJEXpCiJcqvsEacjDvTr.TO9d0tnNKlIuwehMDRKg1kEGxxdpg72', 'lacikovacs330@gmail.com', '82b5583c24d248ddd212fb7ddd11a365', 1, 'admin'),
+(81, 'lacikovacs333', '$2y$10$kP9LnLuCadlt6M9yJGiQYe5rkfoDQm96g51ZHq30doUCbzMWBKy2C', 'lacikovacs333@gmail.com', '22057784e1c368aa8dfe30429adfb10c', 1, 'user');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -305,61 +355,61 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `archived_order`
 --
 ALTER TABLE `archived_order`
-  MODIFY `id_archived` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_archived` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT a táblához `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=165;
+  MODIFY `id_color` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
 
 --
 -- AUTO_INCREMENT a táblához `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT a táblához `favourites`
 --
 ALTER TABLE `favourites`
-  MODIFY `id_favourites` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id_favourites` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT a táblához `manufacturers`
 --
 ALTER TABLE `manufacturers`
-  MODIFY `id_manufacturer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_manufacturer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT a táblához `phones`
 --
 ALTER TABLE `phones`
-  MODIFY `id_phone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
+  MODIFY `id_phone` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=87;
 
 --
 -- AUTO_INCREMENT a táblához `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id_rating` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_rating` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT a táblához `storage`
 --
 ALTER TABLE `storage`
-  MODIFY `id_storage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_storage` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- Megkötések a kiírt táblákhoz

@@ -175,7 +175,7 @@ session_write_close();
             </div>
             <div class="title-row">
                 <span>PRICE:</span>
-                <p><?php echo $row["price"] * $_POST["quantity"];?><small style="font-size: 10px">.00</small> €</p>
+                <p><?php echo $row["price"] * $_POST["quantity"];?><small style="font-size: 10px">.00</small> $</p>
                 <input type="hidden" value="<?php echo $row["price"] * $_POST["quantity"]; ?>" name="price" id="price">
             </div>
         </div>
@@ -214,13 +214,13 @@ session_write_close();
         <div class="specification-title" style="padding: 0; width: 100%; justify-content: center;text-align: center;align-items: center">
             <ion-icon name="home" class="icon-large"></ion-icon>
             <input type="radio" value="Home delivery" id="hazhozszallitas" name="delivery_method" onclick="toggleStreetAndAddress()" checked>
-            <label for="hazhozszallitas">Home delivery <small>+ 20 €</small></label>
+            <label for="hazhozszallitas">Home delivery <small>+ 20 $</small></label>
         </div>
 
         <div class="specification-title" style="padding: 0; padding-bottom: 15px; width: 100%; justify-content: center;text-align: center;align-items: center">
             <ion-icon name="cube" class="icon-large"></ion-icon>
             <input type="radio" value="Postal recording" id="posta" name="delivery_method" onclick="toggleStreetAndAddress()">
-            <label for="posta">Postal recording <small>+ 10 €</small></label>
+            <label for="posta">Postal recording <small>+ 10 $</small></label>
         </div>
 
         <div id="cities" style="display: none;">

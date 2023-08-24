@@ -730,7 +730,7 @@ session_write_close();
         <br>
 
         <div class="input-wrapper">
-            <input type="text" id="color" name="color"  style="padding: 10px">
+            <input type="text" id="color" name="color"  style="padding: 10px" placeholder="Example: Black">
             <label for="user">Color</label>
         </div>
 

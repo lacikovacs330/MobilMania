@@ -379,7 +379,7 @@
                     <?php
                     if (isset($_SESSION["id_user"]))
                     {
-                                    echo'<button type="submit" class="btn" id="purchase-btn" name="purchase-btn">Purchase</button>';
+                        echo'<button type="submit" class="btn" id="purchase-btn" name="purchase-btn">Purchase</button>';
                     }
                     else
                     {

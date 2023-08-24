@@ -182,7 +182,7 @@ if(isset($_POST["add-phone-btn"])
             if (ImgChecK($_FILES) == 1)
             {
             $pdoQuery = $conn->prepare("INSERT INTO phones (id_manufacturer, model, price,operating_system, processor, operating_system_v, sim, screen_size, capacity, fm_radio, ram, external, internal, main_primary_camera, main_flash, main_video_record, main_face_detect, main_autofocus, main_led_flash, secondary_second, second_smile_detection, second_video, second_led_flash, second_flash, second_autofocus, wifi, bluetooth, usb, nfc, gps, mobile_network, 2g, 3g, 4g, 5g, weight, sms, email, height, width, length,visible) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            $pdoQuery->execute([$id_manufacturer,$model,$price,$operating_system,$processor,$operating_system_v, $sim, $screen_size,$capacity,$fm_radio,$ram,$external,$internal,$main_primary_camera,$main_flash,$main_video_record,$main_face_detect,$main_autofocus,$main_led_flash,$secondary_second,$second_smile_detection,$second_video,$second_led_flash,$second_flash,$second_autofocus,$wifi,$bluetooth,$usb,$nfc,$gps,$mobile_network,$g2,$g3,$g4,$g5,$weight,$sms,$email,$height,$width,$length, "1"]);
+            $pdoQuery->execute([$id_manufacturer,$model,$price,$operating_system,$processor,$operating_system_v, $sim, $screen_size,$capacity,$fm_radio,$ram,$external,$internal,$main_primary_camera,$main_flash,$main_video_record,$main_face_detect,$main_autofocus,$main_led_flash,$secondary_second,$second_smile_detection,$second_video,$second_led_flash,$second_flash,$second_autofocus,$wifi,$bluetooth,$usb,$nfc,$gps,$mobile_network,$g2,$g3,$g4,$g5,$weight,$sms,$email,$height,$width,$length, "0"]);
 
             $lastId = $conn->lastInsertId();
 
