@@ -28,7 +28,7 @@ session_write_close();
 
     $conn = connectDatabase($dsn, $pdoOptions);
 
-    $sql = "SELECT * FROM phones WHERE visible = 1 ORDER BY price ASC";
+    $sql = "SELECT * FROM phones ORDER BY price ASC";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 
