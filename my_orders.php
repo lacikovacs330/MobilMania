@@ -33,12 +33,17 @@ $results1 = $stmt1->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <title>My Orders | @MobilMania</title>
 </head>
+<style>
+    thead tr th{
+        width:20%;
+    }
+</style>
 <body>
 <div style="width: 100%;">
     <h1 style="text-align: center; padding: 15px">My Orders</h1>
     <?php if (!empty($results1)): ?>
         <div style="width: 100%; display: flex;justify-content: center;align-items: center">
-            <table class="table" style="width: 80%; padding: 5px;">
+            <table class="table" style="width: 80%; overflow-x: auto; display: inline-block; white-space: nowrap; margin: 0 auto;">
                 <thead>
                 <tr>
                     <th scope="col">Phone name</th>

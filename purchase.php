@@ -60,6 +60,30 @@ session_write_close();
         max-height: 90%;
     }
 
+    @media only screen and (max-width: 965px) {
+        .purchase{
+            width: 80% !important;
+        }
+
+        .purchase-container{
+            display: flex;
+            flex-direction: column;
+
+        }
+
+        .purchase-item{
+            padding-top: 30px;
+            padding-bottom: 30px;
+            width: 100% !important;
+        }
+
+        .purchase-title{
+            width:100% !important;
+        }
+
+
+    }
+
 </style>
 <body>
 

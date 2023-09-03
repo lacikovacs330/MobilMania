@@ -21,6 +21,11 @@ session_write_close();
     <title>Purchase | @MobilMania </title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 </head>
+<style>
+    thead tr th{
+        width:20%;
+    }
+</style>
 <body>
 <div class="nav-phones">
     <?php include "includes/nav.php";
@@ -61,7 +66,7 @@ if ($_GET["delivery_method"] == "Home delivery")
 ?>
 
 <div style="width: 100%; height: 300px; display: flex; justify-content: center; align-items: center">
-    <table class="table" style="width: 80%;">
+    <table class="table" style="width: 80%; overflow-x: auto; display: inline-block; white-space: nowrap; margin: 0 auto;">
         <thead>
         <tr>
             <th scope="col">Phone name</th>
@@ -128,7 +133,7 @@ if ($_GET["delivery_method"] == "Postal recording")
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
     <div style="width: 100%; height: 200px; display: flex; justify-content: center; align-items: center">
-        <table class="table" style="width: 80%;">
+        <table class="table" style="width: 80%; overflow-x: auto; display: inline-block; white-space: nowrap; margin: 0 auto;"">
             <thead>
             <tr>
                 <th scope="col">Phone name</th>
