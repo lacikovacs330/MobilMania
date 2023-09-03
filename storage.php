@@ -5,7 +5,7 @@ include "includes/db_config.php";
 
 $conn = connectDatabase($dsn, $pdoOptions);
 
-$allowedStorages = array("64 GB", "128 GB", "256 GB");
+$allowedStorages = array("64 GB", "128 GB", "256 GB", "512 GB", "1024 GB");
 
 
 if (isset($_POST["storage-btn"]) and isset($_POST["model_id"]) and !empty($_POST["model_id"]) and isset($_POST["storage"]) and !empty($_POST["storage"]))

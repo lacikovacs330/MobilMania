@@ -148,7 +148,7 @@ session_write_close();
             </form>
 
             <?php
-            $sql_storages_for_phone = "SELECT * FROM storage WHERE id_phone = {$phone['id_phone']}";
+            $sql_storages_for_phone = "SELECT * FROM storage WHERE id_phone = {$phone['id_phone']}  ORDER BY storage ASC";
             $result_storages_for_phone = $conn->query($sql_storages_for_phone);
             ?>
             <form action="delete_storage.php" method="post">
