@@ -85,50 +85,49 @@
 <script>
     $(document).ready(function() {
         $('#searchInput').on('input', function() {
-            var searchTerm = $(this).val();
-            $.post('searcher.php', { search: searchTerm }, function(response) {
-                var productPhonesDiv = $('.product-phones');
-                productPhonesDiv.empty();
+            var searchTerm = $(this).val().toLowerCase();
+            var hasMatchingPhones = false;
 
-                if (response.length > 0) {
-                    var modelsDisplayed = [];
-                    for (var i = 0; i < response.length; i++) {
-                        var model = response[i].model;
-                        if (modelsDisplayed.includes(model)) {
-                            continue;
-                        }
-                        modelsDisplayed.push(model);
+            if (searchTerm !== '') { // Ellenőrzés, hogy a kereső mező ne legyen üres
+                $('.kartya').each(function() {
+                    var model = $(this).find('h3').text().toLowerCase();
+                    var manufacturer = $(this).data('manufacturer-id').toString();
 
-                        var card = `
-                        <div class="kartya">
-                            <div class="kepDoboz">
-                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.png" alt="" class="eger">
-                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.jpg" alt="" class="eger">
-                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.jpeg" alt="" class="eger">
-                            </div>
-                            <div class="tartalomDoboz">
-                                <h3>${model}</h3>
-                                <h2 class="ar">${response[i].price}.<small>00</small> €</h2>
-                                <a href="product.php?id_phone=${response[i].id_phone}" class="vasarlas">Watch now</a>
-                            </div>
-                        </div>`;
-                        productPhonesDiv.append(card);
+                    if (model.includes(searchTerm) || manufacturer === searchTerm) {
+                        $(this).show();
+                        hasMatchingPhones = true;
+                    } else {
+                        $(this).hide();
                     }
+                });
+
+                if (!hasMatchingPhones) {
+                    $('#noPhonesMessage').show(); // Üzenet megjelenítése, ha nincs találat
                 } else {
-                    productPhonesDiv.empty();
-                    productPhonesDiv.append('<p>No results found.</p>');
+                    $('#noPhonesMessage').hide(); // Üzenet elrejtése, ha vannak találatok
                 }
-            }, 'json');
+            } else {
+                // Ha a kereső mező üres, ne jelenjen meg hibaüzenet
+                $('#noPhonesMessage').hide();
+                $('.kartya').show(); // Minden kártya megjelenítése, ha a kereső üres
+            }
+
+            $('#below1500').prop('checked', false);
+            $('#above1500').prop('checked', false);
         });
     });
 </script>
 
+
+
+
 <div class="asd">
     <div class="filter">
         <?php
-        $sqlManufacturers = "SELECT DISTINCT manufacturers.id_manufacturer, manufacturers.manufacturer
-                     FROM manufacturers
-                     JOIN phones ON manufacturers.id_manufacturer = phones.id_manufacturer";
+        $sqlManufacturers = "SELECT DISTINCT m.id_manufacturer, m.manufacturer
+                     FROM manufacturers m
+                     JOIN phones p ON m.id_manufacturer = p.id_manufacturer
+                     WHERE p.visible = 1";
         $stmtManufacturers = $conn->prepare($sqlManufacturers);
         $stmtManufacturers->execute();
         $manufacturers = $stmtManufacturers->fetchAll(PDO::FETCH_ASSOC);
@@ -159,6 +158,8 @@
         </div>
 
     </div>
+
+
 
     <div class="product-phones">
         <?php if ($stmt->rowCount() > 0): ?>
@@ -215,6 +216,10 @@
             </div>
         <?php endif; ?>
 
+        <div id="noPhonesMessage" style="text-align: center; padding: 10px; display: none;">
+            There is no such phone!
+        </div>
+
         <div id="noPhonesMessageBelow" style="display: none;">
             <p>No phones found under $1500.</p>
         </div>
@@ -232,31 +237,33 @@
 
         const phones = document.getElementsByClassName('kartya');
         for (const phone of phones) {
+            const id_manufacturer = phone.getAttribute('data-manufacturer-id');
             const price = parseInt(phone.querySelector('.ar').textContent);
 
-            if ((below1500 && price >= 1500)) {
-                phone.style.display = 'none';
-            } else if (above1500 && price < 1500) {
-                phone.style.display = 'none';
+            if ((!below1500 || price < 1500) && (!above1500 || price >= 1500)) {
+                if (selectedManufacturer === 'all' || selectedManufacturer === id_manufacturer) {
+                    phone.style.display = 'block';
+                } else {
+                    phone.style.display = 'none';
+                }
             } else {
-                phone.style.display = 'block';
+                phone.style.display = 'none';
             }
         }
 
         const productPhonesDiv = document.querySelector('.product-phones');
-        const visiblePhonesBelow = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
-        const visiblePhonesAbove = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
+        const visiblePhones = productPhonesDiv.querySelectorAll('.kartya[style="display: block;"]');
 
         const noPhonesMessageBelow = document.getElementById('noPhonesMessageBelow');
         const noPhonesMessageAbove = document.getElementById('noPhonesMessageAbove');
 
-        if (below1500 && visiblePhonesBelow.length === 0) {
+        if (below1500 && visiblePhones.length === 0) {
             noPhonesMessageBelow.style.display = 'block';
         } else {
             noPhonesMessageBelow.style.display = 'none';
         }
 
-        if (above1500 && visiblePhonesAbove.length === 0) {
+        if (above1500 && visiblePhones.length === 0) {
             noPhonesMessageAbove.style.display = 'block';
         } else {
             noPhonesMessageAbove.style.display = 'none';
@@ -345,6 +352,7 @@
 
     updateManufacturerFilter(selectedManufacturer);
 </script>
+
 
 
 
