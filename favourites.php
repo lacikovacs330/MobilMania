@@ -94,7 +94,7 @@ session_write_close();
                 ?>
                 <div class="kartya">
                     <div class="kepDoboz" >
-                        <img src="<?php echo $img_name; ?>" alt="" class="eger">
+                        <img src="<?php echo $img_name; ?>" alt="" class="eger" style="max-height: 300px; height: 100%; object-fit: fill !important;">
                     </div>
                     <div class="tartalomDoboz">
                         <h3><?php echo $row["model"];?></h3>

@@ -170,7 +170,7 @@ session_write_close();
         ?>
     <div class="purchase-item">
         <div class="purchase-item-phone">
-            <img src="<?= $img_name ?>">
+            <img src="<?= $img_name ?>" style="max-height: 300px; height: 100%; width: 100%; object-fit: fill !important;">
         </div>
         <div class="purchase-title">
             <div class="title-row">

@@ -195,7 +195,7 @@
             }
         ?>
                 <div id="phone-image-container">
-                    <img id="phone-image" src="<?= $img_name ?>" >
+                    <img id="phone-image" src="<?= $img_name ?>" style="">
                 </div>
             </div>
 
@@ -259,25 +259,27 @@
 
                         var results11 = <?= json_encode($results11) ?>;
 
-                        results11.forEach(function (row11, index) {
-                            var imagePath = directory + (index + 2) + "-" + color + ".png";
+                        for (var index = 2; index <= filecount; index++) {
+                            (function (i) {
+                                var imagePath = directory + i + "-" + color + ".png";
 
-                            var img = new Image();
-                            img.src = imagePath;
+                                var img = new Image();
+                                img.src = imagePath;
 
-                            img.onload = function () {
-                                var newImage = document.createElement("img");
-                                newImage.src = this.src;
-                                newImage.classList.add("small-image");
-                                newImage.setAttribute("data-color", color);
+                                img.onload = function () {
+                                    var newImage = document.createElement("img");
+                                    newImage.src = this.src;
+                                    newImage.classList.add("small-image");
+                                    newImage.setAttribute("data-color", color);
 
-                                newImage.setAttribute("onclick", "switchImage1('phone-image', 'smallImage" + (index + 2) + "')");
-                                newImage.id = "smallImage" + (index + 2);
-                                imageContainer.appendChild(newImage);
-                            };
-                        });
+                                    newImage.setAttribute("onclick", "switchImage1('phone-image', 'smallImage" + i + "')");
+                                    newImage.id = "smallImage" + i;
+                                    imageContainer.appendChild(newImage);
+                                };
+                            })(index);
+                        }
 
-                        var phoneImage = document.getElementById("phone-image");
+                    var phoneImage = document.getElementById("phone-image");
                         phoneImage.src = directory + "1-" + color + ".png";
                     }
                 </script>

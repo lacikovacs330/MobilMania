@@ -699,6 +699,8 @@ input[type="radio"]:checked + .color-circle {
 
 .small-image {
     max-width: 100px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 #phone-image {
@@ -726,6 +728,7 @@ input[type="radio"]:checked + .color-circle {
     width: 100%;
     height: 100%;
     transition: transform 0.3s;
+    object-fit: cover !important;
 }
 
 .small-image:hover ~ #phone-image {

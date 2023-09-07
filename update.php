@@ -66,9 +66,9 @@ session_write_close();
                         var card = `
                         <div class="kartya">
                             <div class="kepDoboz">
-                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.png" alt="" class="eger">
-                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.jpg" alt="" class="eger">
-                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.jpeg" alt="" class="eger">
+                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.png" alt="" class="eger" style="max-height: 300px; height: 100%; object-fit: fill !important;">
+                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.jpg" alt="" class="eger" style="max-height: 300px; height: 100%; object-fit: fill !important;">
+                                <img src="phone-img/${response[i].manufacturer}/${response[i].id_phone}/1-${response[i].color}.jpeg" alt="" class="eger" style="max-height: 300px; height: 100%; object-fit: fill !important;">
                             </div>
                             <div class="tartalomDoboz">
                                 <h3>${model}</h3>
@@ -127,7 +127,7 @@ session_write_close();
                     }
                     ?>
                     <div class="kepDoboz">
-                        <img src="<?php echo $img_name; ?>" alt="" class="eger">
+                        <img src="<?php echo $img_name; ?>" alt="" class="eger" style="max-height: 300px; height: 100%; object-fit: fill !important;">
                     </div>
                     <div class="tartalomDoboz">
                         <h3><?php echo $row["model"]; ?></h3>

@@ -131,7 +131,9 @@ session_write_close();
                     <option value="" selected disabled>Select color</option>
                     <?php while($color = $result_colors_for_phone->fetch(PDO::FETCH_ASSOC)) { ?>
                         <option value="<?php echo $color['color']; ?>"><?php echo $color['color']; ?></option>
-                    <?php } ?>
+                    <?php }
+
+                    ?>
                 </select>
                 <?php
                 if (isset($_GET["ok"]) and $_GET["ok"] == 2)
@@ -144,6 +146,7 @@ session_write_close();
                     echo '<div class="error-message2" style="width: 100%">It cannot be deleted because it must remain the same color!</div>';
                 }
                 ?>
+                <input type="hidden" value="<?php echo $phone["id_manufacturer"]; ?>" name="id_manufacturer" id="id_manufacturer">
                 <input type="submit" value="Delete Color" style="margin-top: 10px">
             </form>
 

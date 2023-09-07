@@ -88,7 +88,7 @@
             var searchTerm = $(this).val().toLowerCase();
             var hasMatchingPhones = false;
 
-            if (searchTerm !== '') { // Ellenőrzés, hogy a kereső mező ne legyen üres
+            if (searchTerm !== '') {
                 $('.kartya').each(function() {
                     var model = $(this).find('h3').text().toLowerCase();
                     var manufacturer = $(this).data('manufacturer-id').toString();
@@ -102,14 +102,13 @@
                 });
 
                 if (!hasMatchingPhones) {
-                    $('#noPhonesMessage').show(); // Üzenet megjelenítése, ha nincs találat
+                    $('#noPhonesMessage').show();
                 } else {
-                    $('#noPhonesMessage').hide(); // Üzenet elrejtése, ha vannak találatok
+                    $('#noPhonesMessage').hide();
                 }
             } else {
-                // Ha a kereső mező üres, ne jelenjen meg hibaüzenet
                 $('#noPhonesMessage').hide();
-                $('.kartya').show(); // Minden kártya megjelenítése, ha a kereső üres
+                $('.kartya').show();
             }
 
             $('#below1500').prop('checked', false);
@@ -201,7 +200,7 @@
                     }
                     ?>
                     <div class="kepDoboz">
-                        <img src="<?php echo $img_name; ?>" alt="" class="eger">
+                        <img src="<?php echo $img_name; ?>" alt="" class="eger" style="max-height: 300px; height: 100%; object-fit: fill !important;">
                     </div>
                     <div class="tartalomDoboz">
                         <h3><?php echo $row["model"]; ?></h3>
